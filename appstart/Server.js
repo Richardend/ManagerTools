@@ -22,15 +22,6 @@ function start(routeMethod) {
 			//设置请求数据 接收时的编码
 			request.setEncoding('utf8');
 
-			//接收post参数
-            /*
-			request.addListener('data', function (partofdata) {
-				data += partofdata;
-			});
-
-			request.addListener('end', function () {
-				routeMethod(pathname, response, data);
-			})*/
             routeMethod(pathname, response);
 		}
 		//响应结束

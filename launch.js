@@ -12,6 +12,9 @@ console.log(__dirname)
 //保存当前工程的根目录
 global.__rootpath = __dirname;
 
+//underscore
+global._ = require('underscore');
+
 //起一个服务, 并且告知服务 使用哪个模块(方法: 方法编程)来处理路由逻辑.
 //传说中的 依赖注入方式.
 server.start(routeModel.route);

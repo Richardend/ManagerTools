@@ -14,8 +14,11 @@ function route(path, response, data) {
     //分离出 controller 和 action
     var controller, action, pathHash, controllerModule;
 
-    pathHash = (path == '/' ? config.homepage : path).split('/');
+    //如果是默认路径, 则使用 配置文件中的homepage内容.
+    if (path == '/') path = config.homepage;
 
+    //分享出, controller 和 action的值.
+    pathHash = path.split('/');
     controller = pathHash[1];
     action = pathHash[2];
 
@@ -43,6 +46,7 @@ function route(path, response, data) {
         gotoErrorPage();
     }
 
+    //显示公共错误页的方法.
     function gotoErrorPage() {
         pathHash = config.errorpage.split('/');
 
