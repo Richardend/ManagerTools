@@ -5,7 +5,21 @@
  */
 
 exports.registController = function (thatExports, viewControllers) {
-    for (var key in viewControllers) {
-        thatExports[key] = viewControllers[key];
+    for (var controller in viewControllers) {
+        thatExports[controller] = new viewInstace(viewControllers[controller]);
     }
+}
+
+function viewInstace (handle) {
+    this.handle = handle;
+    this.render = function (datamodel) {
+        var _html = _.template(this.view)(datamodel);
+        this.response.write(_html);
+    }
+    this.run = function (res, view) {
+        this.response = res;
+        this.view = view;
+        this.handle.call(this, res, view);
+    }
+    return this;
 }

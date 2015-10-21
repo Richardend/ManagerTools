@@ -11,6 +11,7 @@ var fs = require('fs');
 function route(path, response, data) {
 
     var config = require(__rootpath + '/config/appConfig').content;
+    var tools = require(__rootpath + '/common/tools').tools;
     //分离出 controller 和 action
     var controller, action, pathHash, controllerModule;
 
@@ -31,7 +32,7 @@ function route(path, response, data) {
     }
 
     //拿到controller 之后.  按照action去调用 view控制器
-    if (controllerModule[action] && typeof controllerModule[action] === 'function') {
+    if (controllerModule[action] && typeof controllerModule[action] === 'object') {
         //拿到控制器对应的 视图.
         var view;
         try {
@@ -40,7 +41,7 @@ function route(path, response, data) {
             gotoErrorPage();
         }
 
-        controllerModule[action](response, view);
+        controllerModule[action]['run'](response, tools.renderView(view));
     } else {
         //没找到控制器.
         gotoErrorPage();
@@ -54,7 +55,7 @@ function route(path, response, data) {
         action = pathHash[2];
 
         controllerModule = require(__rootpath + '/controllers/' + controller + 'Controller');
-        controllerModule[action](response, fs.readFileSync(__rootpath + '/views/' + controller + '/' + action + '.html', 'utf-8'));
+        controllerModule[action]['run'](response, fs.readFileSync(__rootpath + '/views/' + controller + '/' + action + '.html', 'utf-8'));
     }
 }
 
