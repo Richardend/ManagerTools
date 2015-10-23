@@ -6,6 +6,7 @@ var registHelp = require(__rootpath + '/common/registController');
 registHelp.registController(exports, {
 
     index: function (response, view) {
-        response.write(_.template(view)({data: null}));
+		this.render({data: null});	
+        //response.write(_.template(view)({data: null}));
     }
 })

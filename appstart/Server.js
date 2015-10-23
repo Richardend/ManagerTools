@@ -21,11 +21,14 @@ function start(routeMethod) {
 
 			//设置请求数据 接收时的编码
 			request.setEncoding('utf8');
-
+		
             routeMethod(pathname, response);
+			
 		}
+		
 		//响应结束
-		response.end();
+		//response.end();
+
 	})
 	//指定这个Server的端口
 	.listen(8080);

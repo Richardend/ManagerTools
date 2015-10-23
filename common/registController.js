@@ -15,6 +15,7 @@ function viewInstace (handle) {
     this.render = function (datamodel) {
         var _html = _.template(this.view)(datamodel);
         this.response.write(_html);
+		this.response.end();
     }
     this.run = function (res, view) {
         this.response = res;

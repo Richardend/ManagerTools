@@ -49,6 +49,7 @@ function route(path, response, data) {
 
     //显示公共错误页的方法.
     function gotoErrorPage() {
+
         pathHash = config.errorpage.split('/');
 
         controller = pathHash[1];
