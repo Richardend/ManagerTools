@@ -17,19 +17,19 @@ registHelp.registController(exports, {
 
 		var sql = "";
 		if(arg && arg.searchCondition){
-			sql = "select * from goods_info where BID='"+arg.searchCondition+"' limit 10";
+			sql = "select * from personinfo where name like '%"+arg.searchCondition+"%' limit 10";
 		}
 		else{
-			sql = "select * from goods_info limit 10";
+			sql = "select * from personinfo limit 10";
 		}
 
 		query(sql,function(err,vals,fields){  
 			if(err){
 				console.log(util.inspect(err));
 			}
-			else {		
+			else {				
 				var datamodel = {data:vals};
-				returnView.render(datamodel);			
+				returnView.render(datamodel);						
 			}
 		}); 
     }

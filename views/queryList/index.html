@@ -4,41 +4,17 @@
 </form>
 <table border="1" >
 	<tr style="background-color:grey;">
-		<td>GoodsInfoID</td>
-		<td>Title</td>
-		<td>GoodsID</td>
-		<td>SaleStatus</td>
-		<td>CategoryID</td>
-		<td>BID</td>
-		<td>EnterpriseBID</td>
-		<td>Version</td>
-		<td>IsNew</td>
-		<td>Status</td>
-		<td>SubTitle</td>
-		<td>TemplateID</td>
-		<td>MinSalePrice</td>
-		<td>MinMarketPrice</td>
-		<td>MaxSalePrice</td>
-		<td>MaxMarketPrice</td>
+		<td>ID</td>
+		<td>Name</td>
+		<td>Age</td>
+		<td>Favorite</td>		
 	</tr>
 <% data.forEach(function (item) { %>	
 	<tr>
-		<td><%=item.GoodsInfoID%></td>
-		<td><%=item.Title%></td>
-		<td><%=item.GoodsID%></td>
-		<td><%=item.SaleStatus%></td>
-		<td><%=item.CategoryID%></td>
-		<td><%=item.BID%></td>
-		<td><%=item.EnterpriseBID%></td>
-		<td><%=item.Version%></td>
-		<td><%=item.IsNew%></td>
-		<td><%=item.Status%></td>
-		<td><%=item.SubTitle%></td>
-		<td><%=item.TemplateID%></td>
-		<td><%=item.MinSalePrice%></td>
-		<td><%=item.MinMarketPrice%></td>
-		<td><%=item.MaxSalePrice%></td>
-		<td><%=item.MaxMarketPrice%></td>
+		<td><%=item.id%></td>
+		<td><%=item.name%></td>
+		<td><%=item.age%></td>
+		<td><%=item.favorite%></td>		
 	</tr>
-	<%})%>
+<%})%>
 </table>

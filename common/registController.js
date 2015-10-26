@@ -3,7 +3,6 @@
  * controllers 中视图控制器都要使用此模块来作继承.
  * 1. 将控制器中的方法公开
  */
-
 exports.registController = function (thatExports, viewControllers) {
     for (var controller in viewControllers) {
         thatExports[controller] = new viewInstace(viewControllers[controller]);
@@ -12,9 +11,9 @@ exports.registController = function (thatExports, viewControllers) {
 
 function viewInstace (handle) {
     this.handle = handle;
-    this.render = function (datamodel) {
-        var _html = _.template(this.view)(datamodel);
-        this.response.write(_html);
+    this.render = function (datamodel) {	
+		var _html = _.template(this.view)(datamodel);
+		this.response.write(_html);
 		this.response.end();
     }
     this.run = function (req, res, view) {

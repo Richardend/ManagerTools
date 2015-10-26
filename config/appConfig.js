@@ -13,11 +13,11 @@ var _config = {
 	
 	
 	//Db config
-	, host: 'pub.mysql.db.fat.qa.nt.ctripcorp.com' 
-    , user: 'us_test_wanggy'
-    , password: '1qaz@WSX' 
-    , database: 'finflproductdb'
-    , port: 55666  
+	, host: '10.32.77.19' 
+    , user: 'root'
+    , password: '1qazXSW@' 
+    , database: 'test'
+    , port: 3306  
 }
 
 exports.content = _config;
