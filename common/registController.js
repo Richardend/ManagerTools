@@ -21,7 +21,7 @@ function viewInstace (handle) {
 		this.request = req;
         this.response = res;
         this.view = view;
-        this.handle.call(this, req, res, view);
+        this.handle.call(this);
     }
     return this;
 }

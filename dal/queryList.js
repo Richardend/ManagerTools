@@ -1,3 +1,8 @@
+/**
+ * Created by ctrip on 15/10/20.
+ * for dal test by alf
+ */
+ 
 var connection = require(__rootpath + '/dal/dbConnection');
 
 var query = function(sql,callback){  

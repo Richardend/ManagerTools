@@ -7,14 +7,19 @@
 
 //文件系统 操作模块.
 var fs = require('fs');
+//加载 url 模块, 提供一些url相关的工具
+var urlTool = require("url");
 
-function route(path, request, response, data) {
+function route(request, response, data) {
 
     var config = require(__rootpath + '/config/appConfig').content;
     var tools = require(__rootpath + '/common/tools').tools;
     //分离出 controller 和 action
     var controller, action, pathHash, controllerModule;
 
+	//解析path
+	var path = urlTool.parse(request.url).pathname;
+	
     //如果是默认路径, 则使用 配置文件中的homepage内容.
     if (path == '/') path = config.homepage;
 

@@ -1,8 +1,14 @@
+/**
+ * Created by ctrip on 15/10/20.
+ * for db connection test by alf
+ */
 var mysql=require("mysql");  
+var config = require(__rootpath + '/config/appConfig').content;
+	  
 this.pool = mysql.createPool({  
-    host: 'pub.mysql.db.fat.qa.nt.ctripcorp.com',  
-    user: 'us_test_wanggy',  
-    password: '1qaz@WSX',  
-    database: 'finflproductdb',  
-    port: 55666  
+    host: config.host,  
+    user: config.user,  
+    password: config.password,  
+    database: config.database,  
+    port: config.port  
 });

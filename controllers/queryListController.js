@@ -1,5 +1,6 @@
 /**
  * Created by ctrip on 15/10/20.
+ * for test search db controller by alf
  */
 var registHelp = require(__rootpath + '/common/registController');
 var util = require('util');
@@ -13,8 +14,7 @@ registHelp.registController(exports, {
 		var returnView  = this;		
 			
 		var arg = urlTool.parse(this.request.url, true).query;
-		console.log(arg.searchCondition)
-		
+
 		var sql = "";
 		if(arg && arg.searchCondition){
 			sql = "select * from goods_info where BID='"+arg.searchCondition+"' limit 10";

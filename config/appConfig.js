@@ -10,6 +10,14 @@ var _config = {
     , homepage: '/test/index'
     //公共错误页
     , errorpage: '/share/errorPage'
+	
+	
+	//Db config
+	, host: 'pub.mysql.db.fat.qa.nt.ctripcorp.com' 
+    , user: 'us_test_wanggy'
+    , password: '1qaz@WSX' 
+    , database: 'finflproductdb'
+    , port: 55666  
 }
 
 exports.content = _config;
