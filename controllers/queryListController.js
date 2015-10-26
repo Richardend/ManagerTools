@@ -4,31 +4,32 @@
 var registHelp = require(__rootpath + '/common/registController');
 var util = require('util');
 var query = require(__rootpath + '/dal/queryList');
+//加载 url 模块, 提供一些url相关的工具
+var urlTool = require("url");
 
 registHelp.registController(exports, {
-    index: function (response, view) {
+    index: function () {
 
-		var returnView  = this;
+		var returnView  = this;		
+			
+		var arg = urlTool.parse(this.request.url, true).query;
+		console.log(arg.searchCondition)
+		
+		var sql = "";
+		if(arg && arg.searchCondition){
+			sql = "select * from goods_info where BID='"+arg.searchCondition+"' limit 10";
+		}
+		else{
+			sql = "select * from goods_info limit 10";
+		}
 
-		query("select * from goods_info limit 10 ",function(err,vals,fields){  
+		query(sql,function(err,vals,fields){  
 			if(err){
 				console.log(util.inspect(err));
 			}
 			else {		
 				var datamodel = {data:vals};
-
-				returnView.render(datamodel);	
-
-				
-				//var htmlContent = _.template(view)({data:vals});
-				//console.log(htmlContent)
-				
-				
-				//response.write(htmlContent);
-				//response.end();
-				//return returnView.render(datamodel);				
-				//console.log(util.inspect(vals))			
-				//console.log(util.inspect(fields));
+				returnView.render(datamodel);			
 			}
 		}); 
     }

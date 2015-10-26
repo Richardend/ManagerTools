@@ -22,7 +22,7 @@ function start(routeMethod) {
 			//设置请求数据 接收时的编码
 			request.setEncoding('utf8');
 		
-            routeMethod(pathname, response);
+            routeMethod(pathname, request, response);
 			
 		}
 		

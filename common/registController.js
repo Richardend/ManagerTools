@@ -17,10 +17,11 @@ function viewInstace (handle) {
         this.response.write(_html);
 		this.response.end();
     }
-    this.run = function (res, view) {
+    this.run = function (req, res, view) {
+		this.request = req;
         this.response = res;
         this.view = view;
-        this.handle.call(this, res, view);
+        this.handle.call(this, req, res, view);
     }
     return this;
 }

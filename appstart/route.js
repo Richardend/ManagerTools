@@ -8,7 +8,7 @@
 //文件系统 操作模块.
 var fs = require('fs');
 
-function route(path, response, data) {
+function route(path, request, response, data) {
 
     var config = require(__rootpath + '/config/appConfig').content;
     var tools = require(__rootpath + '/common/tools').tools;
@@ -41,7 +41,7 @@ function route(path, response, data) {
             gotoErrorPage();
         }
 
-        controllerModule[action]['run'](response, tools.renderView(view));
+        controllerModule[action]['run'](request, response, tools.renderView(view));
     } else {
         //没找到控制器.
         gotoErrorPage();
@@ -56,7 +56,7 @@ function route(path, response, data) {
         action = pathHash[2];
 
         controllerModule = require(__rootpath + '/controllers/' + controller + 'Controller');
-        controllerModule[action]['run'](response, fs.readFileSync(__rootpath + '/views/' + controller + '/' + action + '.html', 'utf-8'));
+        controllerModule[action]['run'](request, response, fs.readFileSync(__rootpath + '/views/' + controller + '/' + action + '.html', 'utf-8'));
     }
 }
 
