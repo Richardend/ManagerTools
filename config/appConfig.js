@@ -10,6 +10,14 @@ var _config = {
     , homepage: '/test/index'
     //公共错误页
     , errorpage: '/share/errorPage'
+	
+	
+	//Db config
+	, host: '10.32.77.19' 
+    , user: 'root'
+    , password: '1qazXSW@' 
+    , database: 'test'
+    , port: 3306  
 }
 
 exports.content = _config;
