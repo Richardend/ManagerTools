@@ -4,7 +4,7 @@
 var registHelp = require(__rootpath + '/common/registController');
 
 registHelp.registController(exports, {
-    index: function (response, view) {
+    index: function () {
         var datamodel = {};
 
         datamodel.name = '李海亮';

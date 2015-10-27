@@ -5,6 +5,10 @@
  * 2.
  */
 
+/*
+* gotoErrorPage 有问题. 链路不对, 会执行两次.
+* */
+
 //文件系统 操作模块.
 var fs = require('fs');
 
@@ -13,7 +17,7 @@ function route(path, response, data) {
     var config = require(__rootpath + '/config/appConfig').content;
     var tools = require(__rootpath + '/common/tools').tools;
     //分离出 controller 和 action
-    var controller, action, pathHash, controllerModule;
+    var controller, action, pathHash, controllerModule, hasError;
 
     //如果是默认路径, 则使用 配置文件中的homepage内容.
     if (path == '/') path = config.homepage;
@@ -49,13 +53,17 @@ function route(path, response, data) {
 
     //显示公共错误页的方法.
     function gotoErrorPage() {
-        pathHash = config.errorpage.split('/');
+        if (!hasError) {
+            pathHash = config.errorpage.split('/');
 
-        controller = pathHash[1];
-        action = pathHash[2];
+            controller = pathHash[1];
+            action = pathHash[2];
 
-        controllerModule = require(__rootpath + '/controllers/' + controller + 'Controller');
-        controllerModule[action]['run'](response, fs.readFileSync(__rootpath + '/views/' + controller + '/' + action + '.html', 'utf-8'));
+            controllerModule = require(__rootpath + '/controllers/' + controller + 'Controller');
+            controllerModule[action]['run'](response, tools.renderView(fs.readFileSync(__rootpath + '/views/' + controller + '/' + action + '.html', 'utf-8')));
+
+            hasError = true;
+        }
     }
 }
 

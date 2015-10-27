@@ -8,7 +8,7 @@
 var server = require('./appstart/Server');
 //加载自定义模块. 根据不同的来源, 处理请求并返回相应的响应.
 var routeModel = require("./appstart/route");
-console.log(__dirname)
+
 //保存当前工程的根目录
 global.__rootpath = __dirname;
 
