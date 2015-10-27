@@ -29,32 +29,32 @@ function route(request, response, data) {
     action = pathHash[2];
 
     //尝试去加载, 指定的控制器.
-    try {
-        controllerModule = require(__rootpath + '/controllers/' + controller + 'Controller');
+    try {		
+        controllerModule = require(__rootpath + '/controllers/' + controller + 'Controller');		
     } catch(e) {
         //指定控制器没加载到, 加载配置中的公共错误页.
-        gotoErrorPage();
+        gotoErrorPage(0);
     }
 
     //拿到controller 之后.  按照action去调用 view控制器
     if (controllerModule[action] && typeof controllerModule[action] === 'object') {
         //拿到控制器对应的 视图.
         var view;
-        try {
+        try {		
             view = fs.readFileSync(__rootpath + '/views' + path + '.html', 'utf-8');
         } catch(e) {
-            gotoErrorPage();
+            gotoErrorPage(1);
         }
 
         controllerModule[action]['run'](request, response, tools.renderView(view));
     } else {
         //没找到控制器.
-        gotoErrorPage();
+        gotoErrorPage(2);
     }
 
     //显示公共错误页的方法.
-    function gotoErrorPage() {
-
+    function gotoErrorPage(fromMethod) {
+		console.log(fromMethod)
         pathHash = config.errorpage.split('/');
 
         controller = pathHash[1];

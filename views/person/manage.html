@@ -1,0 +1,242 @@
+<form id="searchForm" action="/person/manage">
+<input type="text" id="name" name="name"/>
+<input type="button" id="btnSearch" name="btnSearch" onclick="sendSearchForm()" value="Query"/>
+<input type="hidden" id="pageSize" name="pageSize" value="5"/>
+<input type="hidden" id="pageIndex" name="pageIndex" value="<%=pageIndex ? pageIndex : 0%>"/>
+<input type="hidden" id="totalPages" name="totalPages" value="<%=totalPages ? totalPages: 0%>"/>
+</form>
+
+
+
+<table border="1" >
+	<tr style="background-color:grey;">
+		<td>ID</td>
+		<td>Name</td>
+		<td>Age</td>
+		<td>Favorite</td>	
+		<td>Operation</td>		
+	</tr>
+<% if(data.length>0) {data.forEach(function (item) { %>	
+	<tr>
+		<td><%=item.id%></td>
+		<td><%=item.name%></td>
+		<td><%=item.age%></td>
+		<td><%=item.favorite%></td>	
+		<td>
+			<a href="#" onclick="prepareUpdate('<%=item.id%>','<%=item.name%>','<%=item.age%>','<%=item.favorite%>')">Update</a>
+			<a href="#" onclick="deletePerson(<%=item.id%>)">Delete</a>
+		</td>			
+	</tr>
+<%});}%>
+	<tr>
+		<td colspan="5"><div id="setpage"></div> </td>			
+	</tr>
+
+</table>
+
+<form id="manageForm" action="/person/manage">
+<table>
+	<tr>
+		<td>
+			Name:
+		</td>
+		<td>
+			<input type="text" id="newName" name="newName"/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Age:
+		</td>
+		<td>
+			<input type="text" id="newAge" name="newAge"/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Favorite:
+		</td>
+		<td>
+			<input type="text" id="newFav" name="newFav"/>
+		</td>
+	</tr>
+	<tr>
+		<td colspna="2">
+			<input type="button" id="btnAdd" name="btnAdd" onclick="addPerson()" value="Add"/>
+			<input type="button" id="btnUpdate" name="btnUpdate" onclick="updatePerson()" style="display:none;" value="Update"/>
+			<input type="hidden" id="personid" name="personid" value=""/>
+			<input type="hidden" id="methodType" name="methodType" value="search"/>
+		</td>
+	</tr>
+</form>
+
+<style type="text/css"> 
+a:link,a:visited,a:hover,.current,#info{ 
+    border:1px solid #DDD; 
+    background:#F2F2F2; 
+    display:inline-block; 
+    margin:1px; 
+    text-decoration:none; 
+    font-size:12px; 
+    width:35px; 
+    height:15px; 
+    text-align:center; 
+    line-height:15px; 
+    color:#AAA; 
+    padding:1px 2px; 
+} 
+a:hover{ 
+    border:1px solid #E5E5E5; 
+    background:#F9F9F9; 
+} 
+.current{ 
+    border:1px solid #83E7E4; 
+    background:#DFF9F8; 
+    margin:1px; 
+    color:#27CBC7; 
+} 
+#info{ 
+    width:auto; 
+} 
+</style> 
+
+
+<script type="text/javascript"> 
+<!-- 
+	var totalpage,pagesize,cpage,count,curcount,outstr; 
+	//初始化 
+	cpage = 1; 
+	totalpage = 0;
+	pagesize = 0;
+	outstr = ""; 
+	
+function gotopage(target) 
+{     
+    cpage = target;     
+	sendSearchForm(target);
+    //reloadpage(target);    //调用显示页面函数显示第几页,这个功能是用在页面内容用ajax载入的情况 
+} 
+function setpage() 
+{
+	cpage = Number(document.getElementById("pageIndex").value); 
+	totalpage = Number(document.getElementById("totalPages").value) ;
+	pagesize = document.getElementById("pageSize").value;
+	var name = document.getElementById("name").value;
+	
+    if(totalpage<=10){        //总页数小于十页 
+        for (count=1;count<=totalpage;count++) 
+        {    if(count!=cpage) 
+            { 
+                outstr = outstr + "<a href='javascript:void(0)' onclick='gotopage("+count+")'>"+count+"</a>"; 
+            }else{ 
+                outstr = outstr + "<span class='current' >"+count+"</span>"; 
+            } 
+        } 
+    } 
+    if(totalpage>10){        //总页数大于十页 
+        if(parseInt((cpage-1)/10) == 0) 
+        {             
+            for (count=1;count<=10;count++) 
+            {    if(count!=cpage) 
+                { 
+                    outstr = outstr + "<a href='javascript:void(0)' onclick='gotopage("+count+")'>"+count+"</a>"; 
+                }else{ 
+                    outstr = outstr + "<span class='current'>"+count+"</span>"; 
+                } 
+            } 
+            outstr = outstr + "<a href='javascript:void(0)' onclick='gotopage("+count+")'> next </a>"; 
+        } 
+        else if(parseInt((cpage-1)/10) == parseInt(totalpage/10)) 
+        {     
+            outstr = outstr + "<a href='javascript:void(0)' onclick='gotopage("+(parseInt((cpage-1)/10)*10)+")'>pre</a>"; 
+            for (count=parseInt(totalpage/10)*10+1;count<=totalpage;count++) 
+            {    if(count!=cpage) 
+                { 
+                    outstr = outstr + "<a href='javascript:void(0)' onclick='gotopage("+count+")'>"+count+"</a>"; 
+                }else{ 
+                    outstr = outstr + "<span class='current'>"+count+"</span>"; 
+                } 
+            } 
+        } 
+        else 
+        {     
+            outstr = outstr + "<a href='javascript:void(0)' onclick='gotopage("+(parseInt((cpage-1)/10)*10)+")'>prev</a>"; 
+            for (count=parseInt((cpage-1)/10)*10+1;count<=parseInt((cpage-1)/10)*10+10;count++) 
+            {         
+                if(count!=cpage) 
+                { 
+                    outstr = outstr + "<a href='javascript:void(0)' onclick='gotopage("+count+")'>"+count+"</a>"; 
+                }else{ 
+                    outstr = outstr + "<span class='current'>"+count+"</span>"; 
+                } 
+            } 
+            outstr = outstr + "<a href='javascript:void(0)' onclick='gotopage("+count+")'> next </a>"; 
+        } 
+    }     
+    document.getElementById("setpage").innerHTML = "<div id='setpage'><span id='info'>Total:"+totalpage+"|Page:"+cpage+"<\/span>" + outstr + "<\/div>"; 
+    outstr = ""; 
+} 
+
+
+function sendSearchForm(target){
+	if(target){
+		document.getElementById("pageIndex").value = target;
+	}
+	document.getElementById("searchForm").submit();
+}
+
+setpage();
+
+
+
+function addPerson(){
+	//var name = document.getElementById("newName").value; 
+	//var age = document.getElementById("newAge").value;
+	//var fav = document.getElementById("newFav").value;
+	document.getElementById("btnAdd").style.display = "block";    
+	document.getElementById("btnUpdate").style.display = "none";   
+	
+	document.getElementById("methodType").value="create";
+	document.getElementById("manageForm").submit();
+
+}
+
+
+function prepareUpdate(id,name,age,fav){   
+	document.getElementById("btnAdd").style.display = "none";    
+	document.getElementById("btnUpdate").style.display = "block";    
+	
+	document.getElementById("newName").value = name; 
+	document.getElementById("newAge").value = age;
+	document.getElementById("newFav").value = fav;
+	document.getElementById("personid").value = id;
+	
+	
+	document.getElementById("methodType").value="update";
+}
+
+function updatePerson(){
+	//var name = document.getElementById("newName").value; 
+	//var age = document.getElementById("newAge").value;
+	//var fav = document.getElementById("newFav").value;
+	document.getElementById("btnAdd").style.display = "none";    
+	document.getElementById("btnUpdate").style.display = "block";   
+	document.getElementById("methodType").value="update";
+		
+	document.getElementById("manageForm").submit();
+}
+
+function deletePerson(id){
+	//var name = document.getElementById("newName").value; 
+	//var age = document.getElementById("newAge").value;
+	//var fav = document.getElementById("newFav").value;
+	var selectResult=confirm("您确定要删除此条记录？");
+	if(selectResult === true){
+		document.getElementById("personid").value = id;
+		document.getElementById("methodType").value="delete";
+		document.getElementById("manageForm").submit();
+	}
+}
+//--> 
+</script> 
+
